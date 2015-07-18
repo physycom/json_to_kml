@@ -21,10 +21,11 @@ along with json_to_kml. If not, see <http://www.gnu.org/licenses/>.
 #include <cstdio>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <vector>
 #include "jsoncons/json.hpp"
 #include "rapidxml/rapidxml.hpp"
-#include "rapidxml/rapidxml_utils.hpp"
+//#include "rapidxml/rapidxml_utils.hpp"
 #include "rapidxml/rapidxml_print.hpp"
 
 using namespace jsoncons;
@@ -90,6 +91,7 @@ int main(int argc, char** argv)
     exit(222);
   }
   else { cout << "SUCCESS: file " << input_name << " opened!\n"; }
+  input_file.close();
 
   if (output_name.size() > 4){
     if (output_name.substr(output_name.size() - 4, 4) != ".kml"){
@@ -110,8 +112,107 @@ int main(int argc, char** argv)
   else { cout << "SUCCESS: file " << output_name << " opened!\n"; }
 
 
+  /*With RapidXML, you basically have to ensure that any strings 
+  you write to the document persist for the lifetime of the document.
+  So unfortunately we have to declare a persistent string for each element
+  and not overwrite it until we have printed the xml. So, try to use directly json values*/
+  string document_name="json2kml export";
+  string folder_name="Positions";
+  string folder_open="1";
+  string subfolder_attribute="f2/3D";
+  string subfolder_name="2/3D";
+  string styleUrl_value="#sff00ff00";
 
-  json inputjson;
+
+  jsoncons::json gps_records = jsoncons::json::parse_file(input_name);
+  string placemark_name="Index: 1";
+  string placemark_description="TODO";
+  string coordinate_example="11.3648926,44.5021611,50.3";
+
+  xml_document<> doc;
+
+  // xml declaration
+  xml_node<>* decl = doc.allocate_node(node_declaration);
+  decl->append_attribute(doc.allocate_attribute("version", "1.0"));
+  decl->append_attribute(doc.allocate_attribute("encoding", "utf-8"));
+  doc.append_node(decl);
+
+  // kml node
+  xml_node<>* kml = doc.allocate_node(node_element, "kml");
+  kml->append_attribute(doc.allocate_attribute("xmlns", "http://www.opengis.net/kml/2.2"));
+  kml->append_attribute(doc.allocate_attribute("xmlns:gx", "http://www.google.com/kml/ext/2.2"));
+  kml->append_attribute(doc.allocate_attribute("xmlns:kml", "http://www.opengis.net/kml/2.2"));
+  kml->append_attribute(doc.allocate_attribute("xmlns:atom", "http://www.w3.org/2005/Atom"));
+  doc.append_node(kml);
+
+  // Document node
+  xml_node<>* Document = doc.allocate_node(node_element, "Document");
+  kml->append_node(Document);
+
+  // name node
+  xml_node<>* documentname = doc.allocate_node(node_element, "name");
+  documentname->value(document_name.c_str());
+  Document->append_node(documentname);
+
+  // Folder node
+  xml_node<>* Folder = doc.allocate_node(node_element, "Folder");
+  Document->append_node(Folder);
+
+  // foldername node
+  xml_node<>* foldername = doc.allocate_node(node_element, "name");
+  foldername->value(folder_name.c_str());
+  Folder->append_node(foldername);
+
+  // folderopen node
+  xml_node<>* folderopen = doc.allocate_node(node_element, "open");
+  folderopen->value(folder_open.c_str());
+  Folder->append_node(folderopen);
+
+  // subfolder node
+  xml_node<>* subfolder = doc.allocate_node(node_element, "Folder");
+  subfolder->append_attribute(doc.allocate_attribute("id", subfolder_attribute.c_str()));
+  Folder->append_node(subfolder);
+
+  // subfoldername node
+  xml_node<>* subfoldername = doc.allocate_node(node_element, "name");
+  subfoldername->value(subfolder_name.c_str());
+  subfolder->append_node(subfoldername);
+
+  // Placemark node
+  xml_node<>* Placemark = doc.allocate_node(node_element, "Placemerk");
+  subfolder->append_node(Placemark);
+  // Placemarkname node
+  xml_node<>* Placemarkname = doc.allocate_node(node_element, "name");
+  Placemarkname->value(placemark_name.c_str());
+  Placemark->append_node(Placemarkname);
+  // Placemarkdescription node
+  xml_node<>* Placemarkdescription = doc.allocate_node(node_element, "description");
+  Placemarkdescription->value(placemark_description.c_str());
+  Placemark->append_node(Placemarkdescription);
+  // styleurl node
+  xml_node<>* styleurl = doc.allocate_node(node_element, "styleUrl");
+  styleurl->value(styleUrl_value.c_str());
+  Placemark->append_node(styleurl);
+  // point node
+  xml_node<>* point = doc.allocate_node(node_element, "Point");
+  Placemark->append_node(point);
+  // coordinates node
+  xml_node<>* coordinates = doc.allocate_node(node_element, "coordinates");
+  coordinates->value(coordinate_example.c_str());
+  point->append_node(coordinates);
+
+
+
+  std::string xml_as_string;
+  // watch for name collisions here, print() is a very common function name!
+
+  rapidxml::print(std::back_inserter(xml_as_string), doc);
+  output_file << xml_as_string << std::endl;
+
+  //output_file << doc << std::endl;
+  output_file.close();
+
+
   return 0;
 }
 
