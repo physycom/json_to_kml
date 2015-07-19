@@ -1,4 +1,4 @@
-/* Copyright 2015 - Alessandro Fabbri, Stefano Sinigardi */
+/* Copyright 2015 - Stefano Sinigardi */
 
 /***************************************************************************
 This file is part of json_to_kml.
@@ -33,9 +33,8 @@ using namespace rapidxml;
 using namespace std;
 
 #define MAJOR_VERSION     0
-#define MINOR_VERSION     1
+#define MINOR_VERSION     2
 
-#define VERBOSE           1
 
 int main(int argc, char** argv)
 {
@@ -121,8 +120,11 @@ int main(int argc, char** argv)
   string folder_open="1";
   string subfolder_attribute="f2/3D";
   string subfolder_name="2/3D";
-  string styleUrl_value="#sff00ff00";
-
+  string styleUrl_name="green_point";
+  string styleUrl_value="#green_point";
+  string color_value="ff00ff00";
+  string point_scale="0.21";
+  string href_point_value="http://maps.google.com/mapfiles/kml/pal2/icon18.png";
 
   jsoncons::json gps_records = jsoncons::json::parse_file(input_name);
   string placemark_name="Index: 1";
@@ -154,6 +156,41 @@ int main(int argc, char** argv)
   documentname->value(document_name.c_str());
   Document->append_node(documentname);
 
+  // StyleMap node
+  xml_node<>* StyleMap = doc.allocate_node(node_element, "StyleMap");
+  StyleMap->append_attribute(doc.allocate_attribute("id", styleUrl_name.c_str()));
+  Document->append_node(StyleMap);
+
+  // Pair node
+  xml_node<>* Pair = doc.allocate_node(node_element, "Pair");
+  StyleMap->append_node(Pair);
+
+  // Style node
+  xml_node<>* Style = doc.allocate_node(node_element, "Style");
+  Pair->append_node(Style);
+
+  // IconStyle node
+  xml_node<>* IconStyle = doc.allocate_node(node_element, "IconStyle");
+  Style->append_node(IconStyle);
+
+  // color node
+  xml_node<>* color = doc.allocate_node(node_element, "color");
+  color->value(color_value.c_str());
+  IconStyle->append_node(color);
+
+  // scale node
+  xml_node<>* scale = doc.allocate_node(node_element, "scale");
+  scale->value(point_scale.c_str());
+  IconStyle->append_node(scale);
+
+  // Icon node
+  xml_node<>* Icon = doc.allocate_node(node_element, "Icon");
+  IconStyle->append_node(Icon);
+  // href_green_point node
+  xml_node<>* href_green_point = doc.allocate_node(node_element, "href");
+  href_green_point->value(href_point_value.c_str());
+  Icon->append_node(href_green_point);
+
   // Folder node
   xml_node<>* Folder = doc.allocate_node(node_element, "Folder");
   Document->append_node(Folder);
@@ -178,8 +215,11 @@ int main(int argc, char** argv)
   subfoldername->value(subfolder_name.c_str());
   subfolder->append_node(subfoldername);
 
+
+  //TODO: LOOP ON ALL JSON COORDINATES AND CREATE A PLACEMARK FOR EACH ONE
+  //THE FOLLOWING IS JUST AN EXAMPLE
   // Placemark node
-  xml_node<>* Placemark = doc.allocate_node(node_element, "Placemerk");
+  xml_node<>* Placemark = doc.allocate_node(node_element, "Placemark");
   subfolder->append_node(Placemark);
   // Placemarkname node
   xml_node<>* Placemarkname = doc.allocate_node(node_element, "name");
