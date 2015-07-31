@@ -121,9 +121,6 @@ int main(int argc, char** argv) {
   string href_point_value = "http://maps.google.com/mapfiles/kml/pal2/icon18.png";
 
   jsoncons::json gps_records = jsoncons::json::parse_file(input_name);
-  string placemark_name = "Index: 1";
-  string placemark_description = "TODO";
-  string coordinate_example = "11.3648926,44.5021611,50.3";
 
   xml_document<> doc;
 
@@ -223,7 +220,7 @@ int main(int argc, char** argv) {
       else
         vec_desc[in] = "no_description";
 
-      vec_coordinate[in] = to_string(gps_records[in]["lat"].as_double()) + "," + to_string(gps_records[in]["lon"].as_double());
+      vec_coordinate[in] = to_string(gps_records[in]["lon"].as_double()) + "," + to_string(gps_records[in]["lat"].as_double());
       if(gps_records[in].has_member("alt"))
         vec_coordinate[in] += "," + to_string(gps_records[in]["alt"].as_double());
       else vec_coordinate[in] += ",0";
@@ -239,7 +236,7 @@ int main(int argc, char** argv) {
       else
         vec_desc[in] = "no_description";
 
-      vec_coordinate[in] = to_string(rec->value()["lat"].as<double>()) + "," + to_string(rec->value()["lon"].as<double>());
+      vec_coordinate[in] = to_string(rec->value()["lon"].as<double>()) + "," + to_string(rec->value()["lat"].as<double>());
       if(rec->value().has_member("alt"))
         vec_coordinate[in] += "," + to_string(rec->value()["alt"].as_double());
       else vec_coordinate[in] += ",0";
