@@ -25,7 +25,6 @@ along with json_to_kml. If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include "jsoncons/json.hpp"
 #include "rapidxml/rapidxml.hpp"
-//#include "rapidxml/rapidxml_utils.hpp"
 #include "rapidxml/rapidxml_print.hpp"
 
 using namespace jsoncons;
@@ -110,10 +109,6 @@ int main(int argc, char** argv) {
   else { cout << "SUCCESS: file " << output_name << " opened!\n"; }
 
 
-  /*With RapidXML, you basically have to ensure that any strings
-  you write to the document persist for the lifetime of the document.
-  So unfortunately we have to declare a persistent string for each element
-  and not overwrite it until we have printed the xml. So, try to use directly json values*/
   string document_name = "json2kml export";
   string folder_name = "Positions";
   string folder_open = "1";
@@ -215,10 +210,6 @@ int main(int argc, char** argv) {
   subfolder->append_node(subfoldername);
 
 
-  //TODO: LOOP ON ALL JSON COORDINATES AND CREATE A PLACEMARK FOR EACH ONE
-  //THE FOLLOWING IS JUST AN EXAMPLE
-  // Placemark node
-  //jsoncons::json gps_records = jsoncons::json::parse_file(input_name);
   vector<string> vec_name(gps_records.size());
   vector<string> vec_desc(gps_records.size());
   vector<string> vec_coordinate(gps_records.size());
@@ -248,7 +239,7 @@ int main(int argc, char** argv) {
       else
         vec_desc[in] = "no_description";
 
-      vec_coordinate[in] = to_string(rec->value()["lat"].as<double>()) + "," + to_string(rec->value()["lat"].as<double>());
+      vec_coordinate[in] = to_string(rec->value()["lat"].as<double>()) + "," + to_string(rec->value()["lon"].as<double>());
       if(rec->value().has_member("alt"))
         vec_coordinate[in] += "," + to_string(rec->value()["alt"].as_double());
       else vec_coordinate[in] += ",0";
