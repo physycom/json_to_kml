@@ -16,6 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with json_to_kml. If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <cstring>
 #include <cstdio>
@@ -32,7 +33,7 @@ using namespace rapidxml;
 using namespace std;
 
 #define MAJOR_VERSION     0
-#define MINOR_VERSION     2
+#define MINOR_VERSION     3
 
 
 int main(int argc, char** argv) {
@@ -212,7 +213,7 @@ int main(int argc, char** argv) {
   vector<string> vec_coordinate(gps_records.size());
 
   if(gps_records.is_array()) { //array-style
-    for(int in = 0; in < gps_records.size(); in++) {
+    for(size_t in = 0; in < gps_records.size(); in++) {
       vec_name[in] = "index: " + to_string(in);
 
       if(gps_records[in].has_member("desc"))
@@ -243,7 +244,7 @@ int main(int argc, char** argv) {
     }
   }
 
-  for(int in = 0; in < gps_records.size(); in++) {
+  for(size_t in = 0; in < gps_records.size(); in++) {
     xml_node<>* Placemark = doc.allocate_node(node_element, "Placemark");
     subfolder->append_node(Placemark);
     // Placemarkname node
