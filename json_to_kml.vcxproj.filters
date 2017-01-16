@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="json_to_kml.cpp">
+    <ClCompile Include="src\json_to_kml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

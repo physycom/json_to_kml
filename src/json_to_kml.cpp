@@ -16,7 +16,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with json_to_kml. If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
-#define _CRT_SECURE_NO_WARNINGS
 
 #include <cstring>
 #include <cstdio>
