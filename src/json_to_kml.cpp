@@ -31,13 +31,13 @@ using namespace jsoncons;
 using namespace rapidxml;
 using namespace std;
 
-#define MAJOR_VERSION     0
-#define MINOR_VERSION     3
+#define MAJOR_VERSION     1
+#define MINOR_VERSION     0
 
 
 int main(int argc, char** argv) {
   // Usage
-  std::cout << "json2kml v" << MAJOR_VERSION << "." << MINOR_VERSION << std::endl;
+  std::cout << "json_to_kml v" << MAJOR_VERSION << "." << MINOR_VERSION << std::endl;
   std::cout << "Usage: " << argv[0] << " -i [input.json] -o [output.kml]" << std::endl;
   std::cout << "\t- [input.json] json file to parse" << std::endl;
   std::cout << "\t- [output.kml] kml v2.2 file produced by this utility" << std::endl;
