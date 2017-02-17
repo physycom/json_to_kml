@@ -1,4 +1,4 @@
-/* Copyright 2015 - Stefano Sinigardi */
+/* Copyright 2015 - Stefano Sinigardi, Alessandro Fabbri */
 
 /***************************************************************************
 This file is part of json_to_kml.

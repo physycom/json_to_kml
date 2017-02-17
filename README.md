@@ -1,7 +1,7 @@
 ---
 documentclass: physycomen
 title:  "json_to_kml"
-author: "Sinigardi"
+author: "Fabbri, Sinigardi"
 ---
 
 <a href="http://www.physycom.unibo.it"> 
