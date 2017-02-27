@@ -50,7 +50,8 @@ Contains [jsoncons](https://github.com/danielaparker/jsoncons) and [RapidXml](ht
 
 ### Usage
 ```
-kml_to_json.exe -i input.kml -o output.json -f [output style, 'a' (no quotes) for array or 'o' for object]
+kml_to_json.exe -i input.kml -o output.json -f [output style]
+[output style]: 'a' (no quotes) for array or 'o' for object
 ```
 where `input.kml` must be an existing and valid .kml file (versions 2.1 and 2.2 supported) while `output.json` is the name of the output file.
 The optional -f specifies the style of the output .json file (see below for an example). If omitted, the object-style will be used.
