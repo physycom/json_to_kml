@@ -27,7 +27,7 @@ This tool has been written to convert data to the Keyhole Markup Language format
 
 
 ### Installation
-**make** and a **C++11** compatible compiler are required. Clone the repo and type ``make`` in your favourite shell, it should be enough in most cases.
+**make** and a **C++11** compatible compiler are required. Clone the repo and type ``make`` in your favourite shell, it should be enough in most cases.   
 There's also a **VS2015** solution avalaible.   
 Contains [jsoncons](https://github.com/danielaparker/jsoncons) and [RapidXml](https://github.com/physycom/rapidxml) as git submodules.
 
@@ -54,7 +54,7 @@ kml_to_json.exe -i input.kml -o output.json -f [output style]
 [output style]: 'a' (no quotes) for array or 'o' for object
 ```
 where `input.kml` must be an existing and valid .kml file (versions 2.1 and 2.2 supported) while `output.json` is the name of the output file.
-The optional -f specifies the style of the output .json file (see below for an example). If omitted, the object-style will be used.
+The optional -f specifies the style of the output .json file. If omitted, the object-style will be used.
 
 
 More details about file formats is available [here](https://github.com/physycom/file_format_specifications/blob/master/formati_file.md).
