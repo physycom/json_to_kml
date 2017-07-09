@@ -29,7 +29,7 @@ This tool has been written to convert data to the Keyhole Markup Language format
 ### Installation
 **CMake** and a **C++11** compatible compiler are required. To build the executable, clone the repo and then type  
 ```
-mkdir build ; cd build ; cmake .. ; cmake --build . --target install
+mkdir build ; cd build ; cmake .. ; cmake --build .
 ```
 With CMake you can also deploy projects for the most common IDEs.  
 Contains [jsoncons](https://github.com/danielaparker/jsoncons) and [RapidXml](https://github.com/physycom/rapidxml) as git submodules.
